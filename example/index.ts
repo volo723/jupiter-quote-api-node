@@ -1,7 +1,12 @@
-import { createJupiterApiClient, IndexedRouteMapResponse } from "../src/index";
+import { createJupiterApiClient, IndexedRouteMapResponse, QuoteResponse } from "../src/index";
 import { Connection, Keypair, VersionedTransaction } from "@solana/web3.js";
 import { Wallet } from "@project-serum/anchor";
 import bs58 from "bs58";
+import axios from 'axios'
+
+// import fetch from "node-fetch";
+
+// require('dotenv').config()
 
 type RouteMap = Record<string, string[]>;
 
@@ -34,23 +39,33 @@ function inflateIndexedRouteMap(
 export async function main() {
   const jupiterQuoteApi = createJupiterApiClient();
   const wallet = new Wallet(
-    Keypair.fromSecretKey(bs58.decode(process.env.PRIVATE_KEY || ""))
+    Keypair.fromSecretKey(bs58.decode("tbkjbMLDjxVKjVRCN13U17N156UvDMxPR1ScPAJQgkFjQ1PjWYYRNqDNA6SzEZaapRziE7kkvMZbC1SmBzsBnNG"))
+    // Keypair.fromSecretKey(bs58.decode(process.env.PRIVATE_KEY || ""))
   );
 
+  console.log("quote = 0");
   // make sure that you are using your own RPC endpoint
   const connection = new Connection(
-    "https://neat-hidden-sanctuary.solana-mainnet.discover.quiknode.pro/2af5315d336f9ae920028bbb90a73b724dc1bbed/"
+    "https://muddy-greatest-moon.solana-mainnet.quiknode.pro/6c91fb508ed818340a8622c0b167c2a59dc86187/"
+    // "https://neat-hidden-sanctuary.solana-mainnet.discover.quiknode.pro/2af5315d336f9ae920028bbb90a73b724dc1bbed/"
   );
 
+  console.log("quote = 1");
+
+  // const res = await axios.get("https://quote-api.jup.ag/v6/quote?inputMint=So11111111111111111111111111111111111111112&outputMint=WENWENvqqNya429ubCdR81ZmD69brwQaaBYY6p3LCpk&amount=1000000&slippageBps=1")
+  // const quote: any = res.data;
+  
   // get quote
   const quote = await jupiterQuoteApi.quoteGet({
-    inputMint: "J1toso1uCk3RLmjorhTtrVwY9HJ7X8V9yYac6Y7kGCPn",
-    outputMint: "mSoLzYCxHdYgdzU16g5QSh3i5K3z3KZK7ytfqcJm7So",
-    amount: 35281,
+    inputMint: "So11111111111111111111111111111111111111112",
+    outputMint: "WENWENvqqNya429ubCdR81ZmD69brwQaaBYY6p3LCpk",
+    amount: 10000,
     slippageBps: 100,
     onlyDirectRoutes: false,
     asLegacyTransaction: false,
   });
+
+  console.log("quote = ", quote);
 
   if (!quote) {
     console.error("unable to quote");

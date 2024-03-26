@@ -8,6 +8,7 @@
   "sideEffects": false,
   "scripts": {
     "start": "ts-node ./example/index.ts",
+    "buy": "ts-node ./swap.ts",
     "test": "vitest",
     "build": "npm run openapi-gen && tsup src/index.ts --dts --format esm,cjs",
     "openapi-gen": "openapi-generator-cli generate -i swagger.yaml -o generated -g typescript-fetch --skip-validate-spec --additional-properties=supportsES6=true,typescriptThreePlus=true",
@@ -16,12 +17,19 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@jup-ag/api": "^6.0.10",
     "@project-serum/anchor": "^0.26.0",
     "@solana/web3.js": "^1.87.6",
-    "bs58": "^5.0.0"
+    "@types/node-fetch": "^2.6.11",
+    "axios": "^1.6.7",
+    "bs58": "^5.0.0",
+    "dotenv": "^16.4.1",
+    "node-fetch": "^2.7.0",
+    "ts-dotenv": "^0.9.1"
   },
   "devDependencies": {
     "@openapitools/openapi-generator-cli": "^2.7.0",
+    "@types/node-fetch": "^2.6.11",
     "cross-fetch": "^3.1.5",
     "ts-node": "^10.5.0",
     "tsup": "^7.1.0",
